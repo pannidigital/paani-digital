@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 const photos = [
-    { id: 1, src: '/images/rejeena.jpg', alt: 'Hamro Model 1', category: 'Model' },
-    { id: 2, src: '/images/samir.jpg', alt: 'Hamro Model 2', category: 'Model' },
-    { id: 3, src: '/images/simran.jpg', alt: 'Hamro Model 3', category: 'Model' },
+    { id: 1, src: '/images/rejeena.jpg', alt: 'Model 1', category: 'Model' },
+    { id: 2, src: '/images/samir.jpg', alt: 'Model 2', category: 'Model' },
+    { id: 3, src: '/images/simran.jpg', alt: 'Model 3', category: 'Model' },
     { id: 4, src: '/images/ish1.jpg', alt: 'Photography 1', category: 'Commercial' },
     { id: 5, src: '/images/u1.png', alt: 'Photography 2', category: 'Commercial' },
 ];
