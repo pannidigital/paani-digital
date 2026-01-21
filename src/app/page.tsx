@@ -8,6 +8,8 @@ import ChatBot from '@/chatbot/page';
 import Team from '@/components/home/Team';
 import Tools from '@/components/home/Tools';
 import CaseStudies from '@/components/home/CaseStudies';
+import Photos from '@/components/home/Photos';
+import Videos from '@/components/home/Videos';
 
 export default function Home() {
   return (
@@ -19,6 +21,8 @@ export default function Home() {
       <Pricing />
       <Team />
       <CaseStudies />
+      <Photos />
+      <Videos />
       <Tools />
       <ChatBot />
       <Footer />

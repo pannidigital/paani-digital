@@ -4,29 +4,50 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 
-const caseStudies = [
-  {
-    title: "Ecommerce Growth Boost",
-    image: "/images/ish1.jpg",
-    summary: "A 250% increase in conversions through strategic redesign and SEO.",
-    details: "We optimized UI/UX, improved checkout, and used targeted SEO strategies."
-  },
-  {
-    title: "Healthcare Branding Success",
-    image: "/images/u1.png",
-    summary: "Crafted a complete digital presence for a wellness clinic.",
-    details: "Full branding, social strategy, and paid campaigns for audience growth."
-  },
-  {
-    title: "Education Lead Generation",
-    image: "/images/u1.png",
-    summary: "Generated 1,000+ leads in 3 months for an edtech platform.",
-    details: "Built lead funnels, automation systems, and content marketing."
-  },
-];
+const caseStudies = {
+  store: [
+    {
+      title: "Heyyaz Store",
+      image: "/logo.jpeg",
+      summary: "Premium retail experience with modern design.",
+      details: "A complete store setup for Heyyaz, focusing on user experience and conversion optimization.",
+      link: "https://heyyaz.com/"
+    },
+    {
+      title: "Shahinoor Unisex Salon",
+      image: "/logo.jpeg",
+      summary: "Elegant e-commerce solution for Shahinoor.",
+      details: "Custom store design and development for Shahinoor, featuring a seamless shopping flow.",
+      link: "https://www.shahinoorunisexsalon.com/"
+    }
+  ],
+  website: [
+    {
+      title: "Kisoft Portfolio",
+      image: "/logo.jpeg",
+      summary: "Modern tech-focused website for Kisoft.",
+      details: "Clean, responsive, and feature-rich website developed for Kisoft's digital needs.",
+      link: "https://kisoft-portfolio.vercel.app/"
+    },
+    {
+      title: "Ecstasy Portfolio",
+      image: "/logo.jpeg",
+      summary: "Creative brand showcase for Ecstasy.",
+      details: "A high-performance portfolio website showcasing creative brand identity and services.",
+      link: "https://ecstasy-portfolio.vercel.app/"
+    },
+    {
+      title: "Freedom to Live",
+      image: "/logo.jpeg",
+      summary: "Inspiring platform for Freedom to Live.",
+      details: "A modern, responsive website designed to inspire and engage the community.",
+      link: "https://freedom-to-live.vercel.app/"
+    }
+  ]
+};
 
 export default function CaseStudies() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<{ category: 'store' | 'website', index: number } | null>(null);
 
   // Close popup on scroll
   useEffect(() => {
@@ -37,8 +58,30 @@ export default function CaseStudies() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [activeIndex]);
 
+  const renderSection = (title: string, category: 'store' | 'website') => (
+    <div className="mb-16">
+      <h3 className="text-3xl font-bold text-white mb-8 border-l-4 border-blue-400 pl-4">{title}</h3>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {caseStudies[category].map((study, index) => (
+          <motion.div
+            key={index}
+            whileHover={{ scale: 1.02 }}
+            onClick={() => setActiveIndex({ category, index })}
+            className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-blue-400/20 cursor-pointer hover:bg-white/20 transition-all"
+          >
+            <div className="w-full h-64 mb-4 overflow-hidden rounded-xl border-2 border-blue-200 shadow-md">
+              <Image src={study.image} alt={study.title} width={600} height={400} className="object-cover w-full h-full" />
+            </div>
+            <h4 className="text-2xl font-bold text-white mb-2">{study.title}</h4>
+            <p className="text-blue-100 text-lg">{study.summary}</p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+
   return (
-    <section className="py-20 bg-gradient-to-br from-blue-950 via-blue-800 to-blue-600 relative overflow-hidden">
+    <section id="case-studies" className="py-20 bg-gradient-to-br from-blue-950 via-blue-800 to-blue-600 relative overflow-hidden">
       {/* Glowing Circles */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }} transition={{ duration: 10, repeat: Infinity }} className="absolute top-1/3 left-1/4 w-64 h-64 bg-blue-300/20 rounded-full blur-3xl" />
@@ -47,30 +90,13 @@ export default function CaseStudies() {
 
       <div className="relative container mx-auto px-4">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="text-center mb-16">
-          <span className="text-blue-300 font-semibold text-sm uppercase tracking-wider">Case Studies</span>
-          <h2 className="text-4xl font-bold text-white mt-4 mb-4">Real Results from Our Work</h2>
+          <span className="text-blue-300 font-semibold text-sm uppercase tracking-wider">Portfolio</span>
+          <h2 className="text-4xl font-bold text-white mt-4 mb-4">Our Case Studies</h2>
           <div className="h-1 bg-blue-300 mx-auto mb-8 w-20" />
-          <p className="text-xl text-blue-100 max-w-2xl mx-auto">
-            Real life examples of problem-solving and performance-driven strategies.
-          </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {caseStudies.map((study, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.03 }}
-              onClick={() => setActiveIndex(index)}
-              className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-blue-400/20 cursor-pointer hover:bg-white/20 transition-all"
-            >
-              <div className="w-full h-48 mb-4 overflow-hidden rounded-xl border-2 border-blue-200 shadow-md">
-                <Image src={study.image} alt={study.title} width={400} height={300} className="object-cover w-full h-full" />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2">{study.title}</h3>
-              <p className="text-blue-100 text-sm">{study.summary}</p>
-            </motion.div>
-          ))}
-        </div>
+        {renderSection("Store Projects", "store")}
+        {renderSection("Website Projects", "website")}
 
         {/* Popup Side Panel */}
         <AnimatePresence>
@@ -80,12 +106,40 @@ export default function CaseStudies() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ duration: 0.5 }}
-              className="fixed top-0 right-0 w-full sm:w-[400px] h-full z-50 bg-white shadow-xl overflow-y-auto p-6"
+              className="fixed top-0 right-0 w-full sm:w-[500px] h-full z-50 bg-white shadow-2xl overflow-y-auto p-8"
             >
-              <button onClick={() => setActiveIndex(null)} className="text-blue-800 font-bold float-right text-lg">&times;</button>
-              <h2 className="text-2xl font-bold mb-4 text-blue-900">{caseStudies[activeIndex].title}</h2>
-              <Image src={caseStudies[activeIndex].image} alt="Detail" width={600} height={400} className="rounded-xl mb-4" />
-              <p className="text-gray-700">{caseStudies[activeIndex].details}</p>
+              <button onClick={() => setActiveIndex(null)} className="text-blue-800 font-bold float-right text-2xl hover:text-blue-600 transition-colors">&times;</button>
+              <h2 className="text-3xl font-bold mb-6 text-blue-900">{caseStudies[activeIndex.category][activeIndex.index].title}</h2>
+              <div className="rounded-xl overflow-hidden mb-6 shadow-lg">
+                <Image src={caseStudies[activeIndex.category][activeIndex.index].image} alt="Detail" width={800} height={500} className="w-full h-auto" />
+              </div>
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-xl font-semibold text-blue-800 mb-2">Project Overview</h3>
+                  <p className="text-gray-700 leading-relaxed text-lg">{caseStudies[activeIndex.category][activeIndex.index].details}</p>
+                </div>
+
+                <div className="pt-6 border-t border-gray-100">
+                  <h3 className="text-xl font-semibold text-blue-800 mb-4">Key Features</h3>
+                  <ul className="list-disc list-inside text-gray-600 space-y-2">
+                    <li>Responsive Design</li>
+                    <li>Performance Optimized</li>
+                    <li>User-Centric UI/UX</li>
+                    <li>Custom Functionality</li>
+                  </ul>
+                </div>
+
+                <div className="pt-8">
+                  <a
+                    href={(caseStudies[activeIndex.category][activeIndex.index] as any).link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl transition-colors shadow-lg"
+                  >
+                    Visit Website
+                  </a>
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
