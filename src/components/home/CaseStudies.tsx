@@ -1,53 +1,26 @@
-
 'use client';
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-
-const caseStudies = {
-  store: [
-    {
-      title: "Heyyaz Store",
-      image: "/logo.jpeg",
-      summary: "Premium retail experience with modern design.",
-      details: "A complete store setup for Heyyaz, focusing on user experience and conversion optimization.",
-      link: "https://heyyaz.com/"
-    },
-    {
-      title: "Shahinoor Unisex Salon",
-      image: "/logo.jpeg",
-      summary: "Elegant e-commerce solution for Shahinoor.",
-      details: "Custom store design and development for Shahinoor, featuring a seamless shopping flow.",
-      link: "https://www.shahinoorunisexsalon.com/"
-    }
-  ],
-  website: [
-    {
-      title: "Kisoft Portfolio",
-      image: "/logo.jpeg",
-      summary: "Modern tech-focused website for Kisoft.",
-      details: "Clean, responsive, and feature-rich website developed for Kisoft's digital needs.",
-      link: "https://kisoft-portfolio.vercel.app/"
-    },
-    {
-      title: "Ecstasy Portfolio",
-      image: "/logo.jpeg",
-      summary: "Creative brand showcase for Ecstasy.",
-      details: "A high-performance portfolio website showcasing creative brand identity and services.",
-      link: "https://ecstasy-portfolio.vercel.app/"
-    },
-    {
-      title: "Freedom to Live",
-      image: "/logo.jpeg",
-      summary: "Inspiring platform for Freedom to Live.",
-      details: "A modern, responsive website designed to inspire and engage the community.",
-      link: "https://freedom-to-live.vercel.app/"
-    }
-  ]
-};
+import { Project } from '@/types/portfolio';
 
 export default function CaseStudies() {
+  const [data, setData] = useState<{ store: Project[], website: Project[] } | null>(null);
   const [activeIndex, setActiveIndex] = useState<{ category: 'store' | 'website', index: number } | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/portfolio')
+      .then(res => res.json())
+      .then(json => {
+        setData(json.caseStudies);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to fetch case studies:', err);
+        setLoading(false);
+      });
+  }, []);
 
   // Close popup on scroll
   useEffect(() => {
@@ -58,27 +31,32 @@ export default function CaseStudies() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [activeIndex]);
 
-  const renderSection = (title: string, category: 'store' | 'website') => (
-    <div className="mb-16">
-      <h3 className="text-3xl font-bold text-white mb-8 border-l-4 border-blue-400 pl-4">{title}</h3>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {caseStudies[category].map((study, index) => (
-          <motion.div
-            key={index}
-            whileHover={{ scale: 1.02 }}
-            onClick={() => setActiveIndex({ category, index })}
-            className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-blue-400/20 cursor-pointer hover:bg-white/20 transition-all"
-          >
-            <div className="w-full h-64 mb-4 overflow-hidden rounded-xl border-2 border-blue-200 shadow-md">
-              <Image src={study.image} alt={study.title} width={600} height={400} className="object-cover w-full h-full" />
-            </div>
-            <h4 className="text-2xl font-bold text-white mb-2">{study.title}</h4>
-            <p className="text-blue-100 text-lg">{study.summary}</p>
-          </motion.div>
-        ))}
+  const renderSection = (title: string, category: 'store' | 'website') => {
+    if (!data || !data[category]) return null;
+    return (
+      <div className="mb-16">
+        <h3 className="text-3xl font-bold text-white mb-8 border-l-4 border-blue-400 pl-4">{title}</h3>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {data[category].map((study, index) => (
+            <motion.div
+              key={index}
+              whileHover={{ scale: 1.02 }}
+              onClick={() => setActiveIndex({ category, index })}
+              className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-blue-400/20 cursor-pointer hover:bg-white/20 transition-all"
+            >
+              <div className="w-full h-64 mb-4 overflow-hidden rounded-xl border-2 border-blue-200 shadow-md">
+                <Image src={study.image} alt={study.title} width={600} height={400} className="object-cover w-full h-full" />
+              </div>
+              <h4 className="text-2xl font-bold text-white mb-2">{study.title}</h4>
+              <p className="text-blue-100 text-lg">{study.summary}</p>
+            </motion.div>
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
+
+  if (loading) return null;
 
   return (
     <section id="case-studies" className="py-20 bg-gradient-to-br from-blue-950 via-blue-800 to-blue-600 relative overflow-hidden">
@@ -100,7 +78,7 @@ export default function CaseStudies() {
 
         {/* Popup Side Panel */}
         <AnimatePresence>
-          {activeIndex !== null && (
+          {activeIndex !== null && data && (
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
@@ -109,14 +87,14 @@ export default function CaseStudies() {
               className="fixed top-0 right-0 w-full sm:w-[500px] h-full z-50 bg-white shadow-2xl overflow-y-auto p-8"
             >
               <button onClick={() => setActiveIndex(null)} className="text-blue-800 font-bold float-right text-2xl hover:text-blue-600 transition-colors">&times;</button>
-              <h2 className="text-3xl font-bold mb-6 text-blue-900">{caseStudies[activeIndex.category][activeIndex.index].title}</h2>
+              <h2 className="text-3xl font-bold mb-6 text-blue-900">{data[activeIndex.category][activeIndex.index].title}</h2>
               <div className="rounded-xl overflow-hidden mb-6 shadow-lg">
-                <Image src={caseStudies[activeIndex.category][activeIndex.index].image} alt="Detail" width={800} height={500} className="w-full h-auto" />
+                <Image src={data[activeIndex.category][activeIndex.index].image} alt="Detail" width={800} height={500} className="w-full h-auto" />
               </div>
               <div className="space-y-6">
                 <div>
                   <h3 className="text-xl font-semibold text-blue-800 mb-2">Project Overview</h3>
-                  <p className="text-gray-700 leading-relaxed text-lg">{caseStudies[activeIndex.category][activeIndex.index].details}</p>
+                  <p className="text-gray-700 leading-relaxed text-lg">{data[activeIndex.category][activeIndex.index].details}</p>
                 </div>
 
                 <div className="pt-6 border-t border-gray-100">
@@ -129,16 +107,18 @@ export default function CaseStudies() {
                   </ul>
                 </div>
 
-                <div className="pt-8">
-                  <a
-                    href={(caseStudies[activeIndex.category][activeIndex.index] as any).link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl transition-colors shadow-lg"
-                  >
-                    Visit Website
-                  </a>
-                </div>
+                {data[activeIndex.category][activeIndex.index].link && (
+                  <div className="pt-8">
+                    <a
+                      href={data[activeIndex.category][activeIndex.index].link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl transition-colors shadow-lg"
+                    >
+                      Visit Website
+                    </a>
+                  </div>
+                )}
               </div>
             </motion.div>
           )}

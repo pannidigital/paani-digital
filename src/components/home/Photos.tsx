@@ -1,16 +1,28 @@
 'use client';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-
-const photos = [
-    { id: 1, src: '/images/rejeena.jpg', alt: 'Model 1', category: 'Model' },
-    { id: 2, src: '/images/samir.jpg', alt: 'Model 2', category: 'Model' },
-    { id: 3, src: '/images/simran.jpg', alt: 'Model 3', category: 'Model' },
-    { id: 4, src: '/images/ish1.jpg', alt: 'Photography 1', category: 'Commercial' },
-    { id: 5, src: '/images/u1.png', alt: 'Photography 2', category: 'Commercial' },
-];
+import { Photo } from '@/types/portfolio';
 
 export default function Photos() {
+    const [photos, setPhotos] = useState<Photo[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch('/api/portfolio')
+            .then(res => res.json())
+            .then(json => {
+                setPhotos(json.photos);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error('Failed to fetch photos:', err);
+                setLoading(false);
+            });
+    }, []);
+
+    if (loading) return null;
+
     return (
         <section id="photos" className="py-20 bg-gradient-to-br from-blue-950 via-blue-800 to-blue-600 relative overflow-hidden">
             {/* Glowing Circles */}

@@ -1,13 +1,33 @@
 'use client';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-
-const videos = [
-    { id: 1, title: 'Project Showcase 1', category: 'Commercial' },
-    { id: 2, title: 'Project Showcase 2', category: 'Event' },
-    { id: 3, title: 'Project Showcase 3', category: 'Social Media' },
-];
+import { Video } from '@/types/portfolio';
 
 export default function Videos() {
+    const [videos, setVideos] = useState<Video[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch('/api/portfolio')
+            .then(res => res.json())
+            .then(json => {
+                setVideos(json.videos);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error('Failed to fetch videos:', err);
+                setLoading(false);
+            });
+    }, []);
+
+    const getYoutubeId = (url: string) => {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : null;
+    };
+
+    if (loading) return null;
+
     return (
         <section id="videos" className="py-20 bg-gradient-to-br from-blue-900 via-blue-700 to-blue-500 relative overflow-hidden">
             {/* Glowing Circles */}
@@ -33,33 +53,49 @@ export default function Videos() {
                 </motion.div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {videos.map((video) => (
-                        <motion.div
-                            key={video.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5 }}
-                            viewport={{ once: true }}
-                            className="relative group bg-white/10 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden cursor-pointer border border-blue-400/20 hover:bg-white/20 transition-all"
-                        >
-                            <div className="aspect-video bg-blue-950/30 flex items-center justify-center relative">
-                                {/* Placeholder for Video */}
-                                <div className="absolute inset-0 bg-blue-400/10 group-hover:bg-blue-400/20 transition-colors" />
-                                <motion.div
-                                    whileHover={{ scale: 1.1 }}
-                                    className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center shadow-lg z-10"
-                                >
-                                    <svg className="w-8 h-8 text-white fill-current" viewBox="0 0 24 24">
-                                        <path d="M8 5v14l11-7z" />
-                                    </svg>
-                                </motion.div>
-                            </div>
-                            <div className="p-6">
-                                <span className="text-blue-200 text-sm font-semibold uppercase tracking-wider">{video.category}</span>
-                                <h3 className="text-xl font-bold text-white mt-2">{video.title}</h3>
-                            </div>
-                        </motion.div>
-                    ))}
+                    {videos.map((video) => {
+                        const youtubeId = video.url ? getYoutubeId(video.url) : null;
+
+                        return (
+                            <motion.div
+                                key={video.id}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5 }}
+                                viewport={{ once: true }}
+                                className="relative group bg-white/10 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-blue-400/20 hover:bg-white/20 transition-all"
+                            >
+                                <div className="aspect-video bg-blue-950/30 flex items-center justify-center relative">
+                                    {youtubeId ? (
+                                        <iframe
+                                            className="w-full h-full"
+                                            src={`https://www.youtube.com/embed/${youtubeId}`}
+                                            title={video.title}
+                                            frameBorder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                        ></iframe>
+                                    ) : (
+                                        <>
+                                            <div className="absolute inset-0 bg-blue-400/10 group-hover:bg-blue-400/20 transition-colors" />
+                                            <motion.div
+                                                whileHover={{ scale: 1.1 }}
+                                                className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center shadow-lg z-10"
+                                            >
+                                                <svg className="w-8 h-8 text-white fill-current" viewBox="0 0 24 24">
+                                                    <path d="M8 5v14l11-7z" />
+                                                </svg>
+                                            </motion.div>
+                                        </>
+                                    )}
+                                </div>
+                                <div className="p-6">
+                                    <span className="text-blue-200 text-sm font-semibold uppercase tracking-wider">{video.category}</span>
+                                    <h3 className="text-xl font-bold text-white mt-2">{video.title}</h3>
+                                </div>
+                            </motion.div>
+                        );
+                    })}
                 </div>
             </div>
         </section>

@@ -1,0 +1,99 @@
+{
+  "caseStudies": {
+    "store": [
+      {
+        "title": "Heyyaz Sadaos",
+        "image": "/logo.jpeg",
+        "summary": "Premium retail experience with modern design.",
+        "details": "A complete store setup for Heyyaz, focusing on user experience and conversion optimization.",
+        "link": ""
+      },
+      {
+        "title": "Shahinoor Unisex Salon",
+        "image": "/logo.jpeg",
+        "summary": "Elegant e-commerce solution for Shahinoor.",
+        "details": "Custom store design and development for Shahinoor, featuring a seamless shopping flow.",
+        "link": "https://www.shahinoorunisexsalon.com/"
+      }
+    ],
+    "website": [
+      {
+        "title": "Kisoft Portfolio",
+        "image": "/logo.jpeg",
+        "summary": "Modern tech-focused website for Kisoft.",
+        "details": "Clean, responsive, and feature-rich website developed for Kisoft's digital needs.",
+        "link": "https://kisoft-portfolio.vercel.app/"
+      },
+      {
+        "title": "Ecstasy Portfolio",
+        "image": "/logo.jpeg",
+        "summary": "Creative brand showcase for Ecstasy.",
+        "details": "A high-performance portfolio website showcasing creative brand identity and services.",
+        "link": "https://ecstasy-portfolio.vercel.app/"
+      },
+      {
+        "title": "Freedom to Live",
+        "image": "/logo.jpeg",
+        "summary": "Inspiring platform for Freedom to Live.",
+        "details": "A modern, responsive website designed to inspire and engage the community.",
+        "link": "https://freedom-to-live.vercel.app/"
+      }
+    ]
+  },
+  "photos": [
+    {
+      "id": 1769017255680,
+      "src": "/uploads/1769017267035-IMG_9470.JPG",
+      "alt": "",
+      "category": "Model"
+    },
+    {
+      "id": 1,
+      "src": "/images/rejeena.jpg",
+      "alt": "Model 1",
+      "category": "Model"
+    },
+    {
+      "id": 2,
+      "src": "/images/samir.jpg",
+      "alt": "Model 2",
+      "category": "Model"
+    },
+    {
+      "id": 3,
+      "src": "/images/simran.jpg",
+      "alt": "Model 3",
+      "category": "Model"
+    },
+    {
+      "id": 4,
+      "src": "/images/ish1.jpg",
+      "alt": "Photography 1",
+      "category": "Commercial"
+    },
+    {
+      "id": 5,
+      "src": "/images/u1.png",
+      "alt": "Photography 2",
+      "category": "Commercial"
+    }
+  ],
+  "videos": [
+    {
+      "id": 1,
+      "title": "Project 1",
+      "category": "Commercial",
+      "url": "https://youtu.be/BgLcbFwZ8JU"
+    },
+    {
+      "id": 2,
+      "title": "Project 2",
+      "category": "Event"
+    },
+    {
+      "id": 3,
+      "title": "Project 3",
+      "category": "Social Media"
+    }
+  ]
+}
