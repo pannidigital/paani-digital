@@ -20,6 +20,13 @@ export async function GET() {
 
 export async function POST(request: Request) {
     try {
+        if (process.env.NODE_ENV === 'production') {
+            return NextResponse.json({
+                error: 'Updates are disabled in production due to a read-only file system.',
+                details: 'To enable updates, please migrate to a database (e.g., Vercel Postgres or MongoDB).'
+            }, { status: 403 });
+        }
+
         const newData: PortfolioData = await request.json();
 
         // Ensure directory exists

@@ -4,6 +4,13 @@ import path from 'path';
 
 export async function POST(request: Request) {
     try {
+        if (process.env.NODE_ENV === 'production') {
+            return NextResponse.json({
+                error: 'Uploads are disabled in production due to a read-only file system.',
+                details: 'To enable uploads, please use a cloud storage service like Cloudinary or Vercel Blob.'
+            }, { status: 403 });
+        }
+
         const formData = await request.formData();
         const file = formData.get('file') as File;
 
