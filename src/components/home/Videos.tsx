@@ -97,7 +97,7 @@ export default function Videos() {
                                         )}
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
                                     </div>
-                                    <div className="absolute bottom-0 left-0 right-0 p-10 pt-20 bg-gradient-to-t from-blue-950/90 to-transparent">
+                                    <div className="absolute bottom-0 left-0 right-0 p-10 pt-20 bg-gradient-to-t from-blue-950/90 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
                                         <span className="text-blue-300 text-[10px] font-black uppercase tracking-[0.3em] mb-3 block">{video.category}</span>
                                         <h3 className="text-2xl font-bold text-white tracking-tight leading-tight group-hover:text-blue-200 transition-colors">{video.title}</h3>
                                     </div>
