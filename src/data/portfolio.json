@@ -83,7 +83,7 @@
       "id": 1,
       "title": "Project 1",
       "category": "Commercial",
-      "url": "https://youtu.be/BgLcbFwZ8JU"
+      "url": "https://youtube.com/shorts/gldSbXJKLSg?si=czjn8gnGmm7qbsQe"
     },
     {
       "id": 2,
@@ -93,7 +93,8 @@
     {
       "id": 3,
       "title": "Project 3",
-      "category": "Social Media"
+      "category": "Social Media",
+      "url": " https://youtube.com/shorts/jzfoK1WjN9I?feature=share"
     }
   ]
 }

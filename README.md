@@ -2,6 +2,10 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+video 1 - https://youtube.com/shorts/RAbQdnSETLY?feature=share
+video 2 - https://youtube.com/shorts/gldSbXJKLSg?feature=share
+video 3 - https://youtube.com/shorts/jzfoK1WjN9I?feature=share
+
 First, run the development server:
 
 ```bash
@@ -9,7 +13,7 @@ npm run dev
 # or
 yarn dev
 # or
-pnpm dev
+pnpm dev    
 # or
 bun dev
 ```
