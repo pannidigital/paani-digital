@@ -148,14 +148,16 @@ export default function AdminDashboard() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
+            const result = await res.json();
             if (res.ok) {
                 setShowSuccess(true);
                 setTimeout(() => setShowSuccess(false), 3000);
             } else {
-                alert('Failed to update portfolio');
+                alert(`Failed to update portfolio: ${result.error}${result.details ? `\n\nDetails: ${result.details}` : ''}`);
             }
         } catch (error) {
             console.error('Save error:', error);
+            alert('An unexpected error occurred while saving.');
         } finally {
             setSaving(false);
         }
@@ -172,16 +174,18 @@ export default function AdminDashboard() {
                 body: formData,
             });
             const json = await res.json();
-            if (json.url) {
+            if (res.ok && json.url) {
                 if (type === 'photo') {
                     updatePhoto(index, 'src', json.url);
                 } else if (type === 'project' && category) {
                     updateProject(category, index, 'image', json.url);
                 }
+            } else {
+                alert(`Failed to upload image: ${json.error}${json.details ? `\n\nDetails: ${json.details}` : ''}`);
             }
         } catch (error) {
             console.error('Upload failed:', error);
-            alert('Failed to upload image');
+            alert('An unexpected error occurred during upload.');
         } finally {
             setUploading(null);
         }
