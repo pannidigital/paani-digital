@@ -5,9 +5,9 @@ import Image from 'next/image';
 const Team = () => {
   const teamMembers = [
     {
-      name: "Ishwor Khadka",
+      name: "kanchan Thapa",
       role: "Founder & CEO",
-      image: "/images/ish1.jpg",
+      image: "/img1.png",
       bio: "Leading the agency with innovative thinking and bold digital strategies."
     },
     
